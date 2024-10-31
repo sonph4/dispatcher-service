@@ -1,0 +1,21 @@
+server:
+  port: 9003
+spring:
+  application:
+    name: dispatcher-service
+  cloud:
+    function:
+      definition: pack|label
+    stream:
+      bindings:                             # Section for configuring destination bindings.
+        packlabel-in-0:                     # The input binding
+          destination: order-accepted       # The actual name at the broker that the binder binds to (the exchange in RabbitMQ)
+          group: ${spring.application.name} # The consumer group
+        packlabel-out-0:                    # The output binding
+          destination: order-dispatched     # The exchange in RabbitMQ - the actual name at the broker bind to.
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: password
+    connection-timeout: 5s
